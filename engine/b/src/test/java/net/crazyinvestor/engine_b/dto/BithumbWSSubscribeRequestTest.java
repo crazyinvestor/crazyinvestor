@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.LinkedList;
 import java.util.List;
 
-class BithumbWSSubRequestTest {
+class BithumbWSSubscribeRequestTest {
 
     @Test
     void SerializeTest() {
@@ -19,7 +19,7 @@ class BithumbWSSubRequestTest {
         final List<BithumbTickTypes> tickTypes = new LinkedList<>();
         tickTypes.add(BithumbTickTypes.HR_1);
 
-        final BithumbWSSubRequest request = new BithumbWSSubRequest(opType, symbols, tickTypes);
+        final BithumbWSSubscribeRequest request = new BithumbWSSubscribeRequest(opType, symbols, tickTypes);
         System.out.println(request);
 
         Assertions.assertEquals(
