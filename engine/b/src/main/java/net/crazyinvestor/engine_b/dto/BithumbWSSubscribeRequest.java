@@ -4,7 +4,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
-public final class BithumbWSSubRequest implements Serializable {
+public final class BithumbWSSubscribeRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = -687691491344005033L;
 
@@ -12,7 +12,7 @@ public final class BithumbWSSubRequest implements Serializable {
     private final List<String> symbols;
     private final List<String> tickTypes;
 
-    public BithumbWSSubRequest(
+    public BithumbWSSubscribeRequest(
             final BithumbOpType opType,
             final List<BithumbSymbol> symbols,
             final List<BithumbTickTypes> tickTypes
