@@ -1,5 +1,9 @@
 package net.crazyinvestor.engine_b.dto;
 
+import net.crazyinvestor.engine_b.dto.request.BithumbWSSubscribeRequest;
+import net.crazyinvestor.engine_b.enums.BithumbOpType;
+import net.crazyinvestor.engine_b.enums.BithumbSymbol;
+import net.crazyinvestor.engine_b.enums.BithumbTickTypes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

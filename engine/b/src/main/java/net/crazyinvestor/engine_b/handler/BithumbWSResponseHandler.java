@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.crazyinvestor.engine_b.dto.*;
+import net.crazyinvestor.engine_b.dto.response.BithumbWSOrderbookDepthResponse;
+import net.crazyinvestor.engine_b.dto.response.BithumbWSTickerResponse;
+import net.crazyinvestor.engine_b.dto.response.BithumbWSTransactionResponse;
+import net.crazyinvestor.engine_b.enums.BithumbOpType;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

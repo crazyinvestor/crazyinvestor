@@ -1,4 +1,4 @@
-package net.crazyinvestor.engine_b.dto;
+package net.crazyinvestor.engine_b.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

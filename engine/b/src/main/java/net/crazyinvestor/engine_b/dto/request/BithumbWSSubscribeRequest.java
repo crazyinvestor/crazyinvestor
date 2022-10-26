@@ -1,4 +1,8 @@
-package net.crazyinvestor.engine_b.dto;
+package net.crazyinvestor.engine_b.dto.request;
+
+import net.crazyinvestor.engine_b.enums.BithumbOpType;
+import net.crazyinvestor.engine_b.enums.BithumbSymbol;
+import net.crazyinvestor.engine_b.enums.BithumbTickTypes;
 
 import java.io.Serial;
 import java.io.Serializable;
