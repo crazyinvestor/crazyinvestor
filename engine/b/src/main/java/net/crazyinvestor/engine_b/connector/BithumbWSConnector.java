@@ -1,6 +1,9 @@
 package net.crazyinvestor.engine_b.connector;
 
-import net.crazyinvestor.engine_b.dto.*;
+import net.crazyinvestor.engine_b.dto.request.BithumbWSSubscribeRequest;
+import net.crazyinvestor.engine_b.enums.BithumbOpType;
+import net.crazyinvestor.engine_b.enums.BithumbSymbol;
+import net.crazyinvestor.engine_b.enums.BithumbTickTypes;
 import net.crazyinvestor.engine_b.handler.BithumbWSResponseHandler;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;

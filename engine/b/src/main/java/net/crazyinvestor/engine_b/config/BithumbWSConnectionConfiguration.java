@@ -1,7 +1,7 @@
 package net.crazyinvestor.engine_b.config;
 
-import net.crazyinvestor.engine_b.dto.BithumbSymbol;
-import net.crazyinvestor.engine_b.dto.BithumbTickTypes;
+import net.crazyinvestor.engine_b.enums.BithumbSymbol;
+import net.crazyinvestor.engine_b.enums.BithumbTickTypes;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Configuration
-public class BithumbConnectionConfiguration {
+public class BithumbWSConnectionConfiguration {
     private static final String baseURL = "wss://pubwss.bithumb.com/pub/ws";
 
     @Bean
