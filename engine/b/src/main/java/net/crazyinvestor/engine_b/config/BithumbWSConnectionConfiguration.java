@@ -3,6 +3,7 @@ package net.crazyinvestor.engine_b.config;
 import net.crazyinvestor.engine_b.enums.BithumbSymbol;
 import net.crazyinvestor.engine_b.enums.BithumbTickTypes;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient;
@@ -14,7 +15,13 @@ import java.util.List;
 
 @Configuration
 public class BithumbWSConnectionConfiguration {
-    private static final String baseURL = "wss://pubwss.bithumb.com/pub/ws";
+    private final String baseURL;
+
+    public BithumbWSConnectionConfiguration(
+            @Value("${app.exchange.uri.bithumb}") final String baseURL
+    ) {
+        this.baseURL = baseURL;
+    }
 
     @Bean
     @Qualifier("bithumb")
