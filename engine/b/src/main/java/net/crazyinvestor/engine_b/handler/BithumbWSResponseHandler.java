@@ -8,15 +8,21 @@ import net.crazyinvestor.engine_b.dto.response.BithumbWSOrderbookDepthResponse;
 import net.crazyinvestor.engine_b.dto.response.BithumbWSTickerResponse;
 import net.crazyinvestor.engine_b.dto.response.BithumbWSTransactionResponse;
 import net.crazyinvestor.engine_b.enums.BithumbOpType;
+import net.crazyinvestor.engine_b.service.TickerService;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
 public class BithumbWSResponseHandler {
+    private final TickerService tickerService;
     private final ObjectMapper objectMapper;
 
-    public BithumbWSResponseHandler() {
+    public BithumbWSResponseHandler(
+            final TickerService tickerService
+    ) {
+        this.tickerService = tickerService;
+
         this.objectMapper = new ObjectMapper();
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
@@ -69,8 +75,9 @@ public class BithumbWSResponseHandler {
         JsonNode content = response.get("content");
 
         BithumbWSTickerResponse bithumbWSTickerResponse = objectMapper.treeToValue(content, BithumbWSTickerResponse.class);
+        tickerService.saveBithumbTicker(bithumbWSTickerResponse);
 
-        System.out.println("Ticker response = " + response);
+//        System.out.println("Ticker response = " + response);
     }
 
     private void handleStatusMessage(JsonNode response) {
