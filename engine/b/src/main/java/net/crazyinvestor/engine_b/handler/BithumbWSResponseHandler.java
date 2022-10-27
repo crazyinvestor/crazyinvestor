@@ -8,15 +8,28 @@ import net.crazyinvestor.engine_b.dto.response.BithumbWSOrderbookDepthResponse;
 import net.crazyinvestor.engine_b.dto.response.BithumbWSTickerResponse;
 import net.crazyinvestor.engine_b.dto.response.BithumbWSTransactionResponse;
 import net.crazyinvestor.engine_b.enums.BithumbOpType;
+import net.crazyinvestor.engine_b.event.BithumbOrderbookDepthEvent;
+import net.crazyinvestor.engine_b.event.BithumbTickerEvent;
+import net.crazyinvestor.engine_b.event.BithumbTransactionEvent;
+import net.crazyinvestor.engine_b.service.TickerService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
 public class BithumbWSResponseHandler {
+    private final TickerService tickerService;
     private final ObjectMapper objectMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public BithumbWSResponseHandler() {
+    public BithumbWSResponseHandler(
+            final TickerService tickerService,
+            final ApplicationEventPublisher eventPublisher
+    ) {
+        this.tickerService = tickerService;
+        this.eventPublisher = eventPublisher;
+
         this.objectMapper = new ObjectMapper();
         this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
@@ -49,28 +62,31 @@ public class BithumbWSResponseHandler {
         JsonNode content = response.get("content");
         Long datetime = content.get("datetime").asLong();
 
-        BithumbWSOrderbookDepthResponse bithumbWSOrderbookDepthResponse = objectMapper.treeToValue(content, BithumbWSOrderbookDepthResponse.class);
-        bithumbWSOrderbookDepthResponse.setDatetime(datetime);
+        BithumbWSOrderbookDepthResponse responseObj = objectMapper.treeToValue(content, BithumbWSOrderbookDepthResponse.class);
+        responseObj.setDatetime(datetime);
+        eventPublisher.publishEvent(new BithumbOrderbookDepthEvent(responseObj));
 
-        System.out.println("Orderbook response = " + response);
+        // TODO: OrderbookDepth MySQL 저장 로직 필요
     }
 
     private void handleTransactionData(JsonNode response) throws JsonProcessingException {
         String type = response.get("type").asText();
         JsonNode content = response.get("content");
 
-        BithumbWSTransactionResponse bithumbWSTransactionResponse = objectMapper.treeToValue(content, BithumbWSTransactionResponse.class);
+        BithumbWSTransactionResponse responseObj = objectMapper.treeToValue(content, BithumbWSTransactionResponse.class);
+        eventPublisher.publishEvent(new BithumbTransactionEvent(responseObj));
 
-        System.out.println("Transaction response = " + response);
+        // TODO: Transaction MySQL 저장 로직 필요
     }
 
     private void handleTickerData(JsonNode response) throws JsonProcessingException {
         String type = response.get("type").asText();
         JsonNode content = response.get("content");
 
-        BithumbWSTickerResponse bithumbWSTickerResponse = objectMapper.treeToValue(content, BithumbWSTickerResponse.class);
+        BithumbWSTickerResponse responseObj = objectMapper.treeToValue(content, BithumbWSTickerResponse.class);
+        eventPublisher.publishEvent(new BithumbTickerEvent(responseObj));
 
-        System.out.println("Ticker response = " + response);
+        tickerService.saveBithumbTicker(responseObj);
     }
 
     private void handleStatusMessage(JsonNode response) {
