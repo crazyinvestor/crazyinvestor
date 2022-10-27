@@ -41,6 +41,7 @@ public class BithumbWSConnector implements ApplicationRunner {
             final List<BithumbTickTypes> tickTypes,
             final BithumbWSResponseHandler handler,
             final ApplicationEventPublisher eventPublisher
+            final BithumbWSResponseHandler handler
     ) {
         this.client = client;
         this.baseURI = baseURI;
@@ -85,7 +86,7 @@ public class BithumbWSConnector implements ApplicationRunner {
                     .map(WebSocketMessage::getPayloadAsText)
                     .doOnNext(handler::handle)
                     .doOnTerminate(() -> eventPublisher.publishEvent(new DisconnectEvent(ExchangeName.BITHUMB)));
-
+                    
             return session
                     .send(subscribeRequest)
                     .and(receiveCallback);
