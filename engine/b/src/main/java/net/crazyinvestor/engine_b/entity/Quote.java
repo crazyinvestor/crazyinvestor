@@ -10,15 +10,22 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticker {
+public class Quote {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "symbol_id")
     private Long id;
 
-    @ManyToOne
+    @OneToOne
+    @MapsId
     @JoinColumn(name = "symbol_id")
     private Symbol symbol;
 
-    @Column(name = "tick_type")
-    private String tickType;
+    @Column(name = "price")
+    private Double price;
+
+    @Column(name = "created_at")
+    private Long createdAt;
+
+    @Column(name = "updated_at")
+    private Long updatedAt;
 }

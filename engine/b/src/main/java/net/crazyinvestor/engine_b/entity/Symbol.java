@@ -10,15 +10,15 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticker {
+public class Symbol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "symbol_id")
-    private Symbol symbol;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "tick_type")
-    private String tickType;
+    @ManyToOne
+    @JoinColumn(name = "exchange_id")
+    private Exchange exchange;
 }
