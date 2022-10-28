@@ -21,4 +21,7 @@ public class Symbol {
     @ManyToOne
     @JoinColumn(name = "exchange_id")
     private Exchange exchange;
+
+    @OneToOne(mappedBy = "symbol")
+    private Quote quote;
 }
