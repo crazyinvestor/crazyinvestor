@@ -23,7 +23,12 @@ class BithumbWSSubscribeRequestTest {
         final List<BithumbTickTypes> tickTypes = new LinkedList<>();
         tickTypes.add(BithumbTickTypes.HR_1);
 
-        final BithumbWSSubscribeRequest request = new BithumbWSSubscribeRequest(opType, symbols, tickTypes);
+        final BithumbWSSubscribeRequest request = BithumbWSSubscribeRequest.builder()
+                .opType(opType)
+                .symbols(symbols)
+                .tickTypes(tickTypes)
+                .build();
+
         System.out.println(request);
 
         Assertions.assertEquals(
