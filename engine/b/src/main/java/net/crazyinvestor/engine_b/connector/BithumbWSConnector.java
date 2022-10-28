@@ -34,6 +34,10 @@ public class BithumbWSConnector implements ApplicationRunner {
     private final BithumbWSResponseHandler handler;
     private final ApplicationEventPublisher eventPublisher;
 
+    private final String tickerRequestMessage;
+    private final String transactionRequestMessage;
+    private final String orderbookRequestMessage;
+
     public BithumbWSConnector(
             @Qualifier("bithumb") final WebSocketClient client,
             @Qualifier("bithumb") final URI baseURI,
@@ -48,32 +52,25 @@ public class BithumbWSConnector implements ApplicationRunner {
         this.tickTypes = tickTypes;
         this.handler = handler;
         this.eventPublisher = eventPublisher;
+
+        this.tickerRequestMessage = generateRequest(BithumbOpType.TICKER).toString();
+        this.transactionRequestMessage = generateRequest(BithumbOpType.TRANSACTION).toString();
+        this.orderbookRequestMessage = generateRequest(BithumbOpType.ORDERBOOK_DEPTH).toString();
     }
 
-    private BithumbWSSubscribeRequest generateTickerRequest() {
-        BithumbOpType opType = BithumbOpType.TICKER;
-        return new BithumbWSSubscribeRequest(opType, symbols, tickTypes);
-    }
-
-    private BithumbWSSubscribeRequest generateTransactionRequest() {
-        BithumbOpType opType = BithumbOpType.TRANSACTION;
-        return new BithumbWSSubscribeRequest(opType, symbols, tickTypes);
-    }
-
-    private BithumbWSSubscribeRequest generateOrderbookDepthRequest() {
-        BithumbOpType opType = BithumbOpType.ORDERBOOK_DEPTH;
-        return new BithumbWSSubscribeRequest(opType, symbols, tickTypes);
+    private BithumbWSSubscribeRequest generateRequest(final BithumbOpType opType) {
+        return BithumbWSSubscribeRequest.builder()
+                .opType(opType)
+                .symbols(symbols)
+                .tickTypes(tickTypes)
+                .build();
     }
 
     public Mono<Void> connect() {
-        BithumbWSSubscribeRequest tickerRequest = generateTickerRequest();
-        BithumbWSSubscribeRequest transactionRequest = generateTransactionRequest();
-        BithumbWSSubscribeRequest orderbookRequest = generateOrderbookDepthRequest();
-
         return client.execute(baseURI, session -> {
-            WebSocketMessage tickerSubscribeMessage = session.textMessage(tickerRequest.toString());
-            WebSocketMessage transactionSubscribeMessage = session.textMessage(transactionRequest.toString());
-            WebSocketMessage orderbookSubscribeMessage = session.textMessage(orderbookRequest.toString());
+            WebSocketMessage tickerSubscribeMessage = session.textMessage(this.tickerRequestMessage);
+            WebSocketMessage transactionSubscribeMessage = session.textMessage(this.transactionRequestMessage);
+            WebSocketMessage orderbookSubscribeMessage = session.textMessage(this.orderbookRequestMessage);
 
             Flux<WebSocketMessage> subscribeRequest = Flux.just(
                     tickerSubscribeMessage,
@@ -98,7 +95,7 @@ public class BithumbWSConnector implements ApplicationRunner {
     }
 
     @EventListener(DisconnectEvent.class)
-    public void onApplicationEvent(DisconnectEvent event) {
+    public void onDisconnectEvent(DisconnectEvent event) {
         if (!Objects.equals(event.getSource(), ExchangeName.BITHUMB)) return;
         this.connect().subscribe();
     }
