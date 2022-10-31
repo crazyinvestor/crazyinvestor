@@ -36,8 +36,9 @@ dependencies {
     implementation("org.springframework.integration:spring-integration-stomp")
     implementation("org.springframework.integration:spring-integration-webflux")
     implementation("org.springframework.integration:spring-integration-websocket")
-
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.integration:spring-integration-test")
