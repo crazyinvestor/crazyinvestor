@@ -1,0 +1,6 @@
+package net.crazyinvestor.ticker_producer_engine.event
+
+import net.crazyinvestor.ticker_producer_engine.dto.response.BithumbWSTransactionResponse
+import org.springframework.context.ApplicationEvent
+
+class BithumbTransactionEvent(response: BithumbWSTransactionResponse) : ApplicationEvent(response)
