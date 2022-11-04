@@ -1,18 +1,17 @@
 package net.crazyinvestor.ticker_producer_engine
 
-//import org.springframework.boot.WebApplicationType
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-//import org.springframework.boot.builder.SpringApplicationBuilder
-import org.springframework.boot.runApplication
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc
-import org.springframework.web.socket.config.annotation.EnableWebSocket
+import java.util.Collections
 
 @SpringBootApplication
 class TickerProducerEngineApplication {
 	companion object {
 		@JvmStatic
 		fun main(args: Array<String>){
-			runApplication<TickerProducerEngineApplication>(*args)
+			val app = SpringApplication(TickerProducerEngineApplication::class.java)
+			app.setDefaultProperties(Collections.singletonMap<String, Any>("server.port", "8089"))
+			app.run(*args)
 		}
 	}
 }

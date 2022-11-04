@@ -12,24 +12,20 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.support.serializer.JsonDeserializer
 
+
+// TODO deprecate 시키기
 @EnableKafka
 @EnableConfigurationProperties(KafkaProperties::class)
 @Configuration
 class ListenerFactories(
     val kafkaProperties: KafkaProperties
 ): KafkaAutoConfiguration(kafkaProperties) {
-
     @Bean
     fun tickerListenerFactory(): ConcurrentKafkaListenerContainerFactory<String, Ticker> {
         val consumerProperties = this.kafkaProperties.buildConsumerProperties()
-        println("========================================")
-        println(consumerProperties)
-        println()
-        println()
-        println("========================================")
 
         return ConcurrentKafkaListenerContainerFactory<String, Ticker>().apply {
-            setConcurrency(3)
+            setConcurrency(1)
             consumerFactory = DefaultKafkaConsumerFactory(
                 consumerProperties,
                 StringDeserializer(),
@@ -38,13 +34,3 @@ class ListenerFactories(
         }
     }
 }
-
-//    @Bean
-//    @Qualifier("consumerConfigs")
-//    fun consumerConfigs(): Map<String, Any> {
-//        return mapOf(
-//            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
-//            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-//            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java
-//        )
-//    }

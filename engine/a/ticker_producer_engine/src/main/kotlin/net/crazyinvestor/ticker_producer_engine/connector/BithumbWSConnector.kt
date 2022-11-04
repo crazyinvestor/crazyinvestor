@@ -72,7 +72,7 @@ class BithumbWSConnector(
                     obj.payloadAsText
                 }
                 .doOnNext {
-                    logger.debug("doOnNext{...}, data = $it")
+                    // logger.debug("doOnNext{...}, data = $it")
                     handler.handle(it)
                 }
                 .doOnTerminate {
