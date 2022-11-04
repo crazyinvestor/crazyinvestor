@@ -17,6 +17,10 @@ import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.serializer.JsonSerializer
 import org.springframework.test.context.ActiveProfiles
 
+class Ticker {
+
+}
+
 @ActiveProfiles("dev")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -71,7 +75,7 @@ class TickerConsumerKafkaCassandraIntegrationTest {
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java
         )
         fun getRandomTicker(): Ticker {
-            return Ticker(Uuids.timeBased(),"ticker-${(Math.random()*10000).toInt()}", (Math.random()*10000).toInt())
+            return Ticker(Uuids.timeBased(),"ticker-${(Math.random()*10000).toInt()}")
         }
     }
 }

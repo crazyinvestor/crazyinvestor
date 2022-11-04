@@ -11,6 +11,5 @@ class EngineAaaApplication {
             runApplication<EngineAaaApplication>(*args)
         }
     }
-
 }
 

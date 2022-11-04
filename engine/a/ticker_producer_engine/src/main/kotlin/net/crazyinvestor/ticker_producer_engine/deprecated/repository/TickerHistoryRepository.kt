@@ -1,4 +1,4 @@
-package net.crazyinvestor.ticker_producer_engine.repository
+package net.crazyinvestor.ticker_producer_engine.deprecated.repository
 
 import net.crazyinvestor.ticker_producer_engine.entity.Ticker
 import net.crazyinvestor.ticker_producer_engine.entity.TickerHistory

@@ -6,4 +6,4 @@ import java.util.UUID
 
 // TODO deprecate 시키기
 @Repository
-interface TickerRepository : ReactiveCassandraRepository<Ticker, UUID>
+interface ExchangeRepository : ReactiveCassandraRepository<Exchange, UUID>

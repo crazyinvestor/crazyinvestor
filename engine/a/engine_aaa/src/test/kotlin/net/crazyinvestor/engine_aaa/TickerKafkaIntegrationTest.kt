@@ -58,14 +58,14 @@ class TickerKafkaIntegrationTest {
     }
 
     companion object {
-        val VALID_TICKER = Ticker(Uuids.timeBased(), "ticker-test-123", 123)
+        val VALID_TICKER = Ticker(Uuids.timeBased(), "ticker-test-123")
         val PRODUCER_CONFIGS = mapOf(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:29092",
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JsonSerializer::class.java
         )
         fun getRandomTicker(): Ticker {
-            return Ticker(Uuids.timeBased(),"ticker-${(Math.random()*10000).toInt()}", (Math.random()*10000).toInt())
+            return Ticker(Uuids.timeBased(),"ticker-${(Math.random()*10000).toInt()}")
         }
     }
 }

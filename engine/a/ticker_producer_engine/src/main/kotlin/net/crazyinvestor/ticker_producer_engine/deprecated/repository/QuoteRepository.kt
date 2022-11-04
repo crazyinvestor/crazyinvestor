@@ -1,4 +1,4 @@
-package net.crazyinvestor.ticker_producer_engine.repository;
+package net.crazyinvestor.ticker_producer_engine.deprecated.repository;
 
 import net.crazyinvestor.ticker_producer_engine.entity.Quote
 import net.crazyinvestor.ticker_producer_engine.entity.Symbol
@@ -16,6 +16,7 @@ class QuoteRepository {
 
     fun save(quote: Quote): Quote {
         println("save MOCK REPOSITORY2 $quote")
+
         return quote
     }
 }
