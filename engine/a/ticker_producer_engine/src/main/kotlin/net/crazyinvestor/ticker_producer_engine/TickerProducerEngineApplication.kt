@@ -10,7 +10,7 @@ class TickerProducerEngineApplication {
 		@JvmStatic
 		fun main(args: Array<String>){
 			val app = SpringApplication(TickerProducerEngineApplication::class.java)
-			app.setDefaultProperties(Collections.singletonMap<String, Any>("server.port", "8089"))
+			app.setDefaultProperties(Collections.singletonMap<String, Any>("server.port", "8091"))
 			app.run(*args)
 		}
 	}

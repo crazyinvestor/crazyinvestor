@@ -1,78 +1,56 @@
 package net.crazyinvestor.ticker_producer_engine.connector
 
-import net.crazyinvestor.ticker_producer_engine.dto.request.BithumbWSSubscribeRequest
-import net.crazyinvestor.ticker_producer_engine.enums.BithumbOpType
-import net.crazyinvestor.ticker_producer_engine.enums.BithumbSymbol
-import net.crazyinvestor.ticker_producer_engine.enums.BithumbTickTypes
-import net.crazyinvestor.ticker_producer_engine.enums.ExchangeName
+import net.crazyinvestor.ticker_producer_engine.dto.bithumb.request.BithumbWSSubscribeRequest
+import net.crazyinvestor.ticker_producer_engine.enums.*
 import net.crazyinvestor.ticker_producer_engine.event.DisconnectEvent
 import net.crazyinvestor.ticker_producer_engine.hadler.BithumbWSResponseHandler
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.context.event.EventListener
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.socket.WebSocketMessage
 import org.springframework.web.reactive.socket.WebSocketSession
 import org.springframework.web.reactive.socket.client.WebSocketClient
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import reactor.util.Logger
 import reactor.util.Loggers
 import java.net.URI
 
-@Component
-class BithumbWSConnector(
-    @Qualifier("bithumbClient") val client: WebSocketClient,
-    @Qualifier("bithumb") val baseURI: URI,
-    symbols: List<BithumbSymbol>,
-    tickTypes: List<BithumbTickTypes>,
+class BaseBithumbWSConnector(
+    val client: WebSocketClient,
+    val baseURI: URI,
     val handler: BithumbWSResponseHandler,
     val eventPublisher: ApplicationEventPublisher,
+    val opType: BithumbOpType
 ) : ApplicationRunner {
-
     companion object {
-        private val logger: Logger = Loggers.getLogger(BithumbWSConnector::class.java)
+        private val logger: Logger = Loggers.getLogger(BaseBithumbWSConnector::class.java)
     }
 
-    val tickerRequestMessage: String = BithumbWSSubscribeRequest
-        .fromOpType(BithumbOpType.TICKER, symbols, tickTypes)
-        .toString()
-
-    val transactionRequestMessage: String = BithumbWSSubscribeRequest
-        .fromOpType(BithumbOpType.TRANSACTION, symbols, tickTypes)
-        .toString()
-
-    val orderbookRequestMessage: String = BithumbWSSubscribeRequest
-        .fromOpType(BithumbOpType.ORDERBOOK_DEPTH, symbols, tickTypes)
+    val opRequestMessage: String = BithumbWSSubscribeRequest
+        .fromOpType(opType, HARD_CODED_SYMBOLS, TICK_TYPES)
         .toString()
 
     fun connect(): Mono<Void> {
         logger.debug("connect()")
-
         return client.execute(baseURI) { session: WebSocketSession ->
             logger.debug("execute(), session = $session")
 
-            val tickerSubscribeMessage =
-                session.textMessage(tickerRequestMessage)
-            val transactionSubscribeMessage =
-                session.textMessage(transactionRequestMessage)
-            val orderbookSubscribeMessage =
-                session.textMessage(orderbookRequestMessage)
-            val subscribeRequest =
-                Flux.just(
-                    tickerSubscribeMessage,
-                    transactionSubscribeMessage,
-                    orderbookSubscribeMessage
-                )
+            val subscribeRequest: Flux<WebSocketMessage> =
+                Flux.just(session.textMessage(opRequestMessage))
 
-            val receiveCallback = session.receive()
-                .map { obj: WebSocketMessage ->
-                    obj.payloadAsText
+            val receiveCallback = session
+                .receive()
+                .flatMap { obj: WebSocketMessage ->
+                    logger.debug("flatMap {...}, obj = $obj")
+
+                    obj.payloadAsText.toMono()
                 }
                 .doOnNext {
-                    // logger.debug("doOnNext{...}, data = $it")
+                    logger.debug("doOnNext{...}, data = $it")
+
                     handler.handle(it)
                 }
                 .doOnTerminate {

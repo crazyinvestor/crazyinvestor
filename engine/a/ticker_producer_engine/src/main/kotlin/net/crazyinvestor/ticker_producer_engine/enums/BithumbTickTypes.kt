@@ -8,3 +8,5 @@ enum class BithumbTickTypes(val tickType: String) {
     MID("MID")
     ;
 }
+
+val TICK_TYPES = listOf("30M", "1H", "12H", "24H", "MID")
