@@ -1,6 +1,6 @@
 package net.crazyinvestor.ticker_producer_engine.deprecated.repository;
 
-import net.crazyinvestor.ticker_producer_engine.entity.Exchange
+import net.crazyinvestor.ticker_producer_engine.deprecated.entity.Exchange
 import org.springframework.stereotype.Repository
 import java.util.Optional
 

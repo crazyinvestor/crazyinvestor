@@ -1,4 +1,4 @@
-package net.crazyinvestor.ticker_producer_engine.entity
+package net.crazyinvestor.ticker_producer_engine.deprecated.entity
 
 data class TickerHistory (
     val id: Long?,
@@ -8,7 +8,7 @@ data class TickerHistory (
     val highPrice: Double?,
     val lowPrice: Double?,
     val closePrice: Double?,
-    val volume: Double? ,
+    val volume: Double?,
     val createdAt: Long?,
     val updatedAt: Long?,
 )
