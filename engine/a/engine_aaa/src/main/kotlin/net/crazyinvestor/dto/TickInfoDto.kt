@@ -3,7 +3,7 @@ package net.crazyinvestor.engine_aaa.dto
 import java.time.LocalDateTime
 import java.util.UUID
 
-data class RecentCurrencyInfoDto(
+data class TickInfoDto(
     val id: UUID?,
     val tickerName: String,
     val tickType: String,
@@ -16,5 +16,12 @@ data class RecentCurrencyInfoDto(
 
     val lowPrice: String,
     val volume: String,
-    val hour: Int
+    val hour: Int,
+    val value: String,
+    val sellVolume: String,
+    val buyVolume: String,
+    val prevClosePrice: String,
+    val chgRate: String,
+    val chgAmt: String,
+    val volumePower: String,
 )

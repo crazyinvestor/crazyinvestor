@@ -1,4 +1,4 @@
-package net.crazyinvestor.ticker_producer_engine.dto.response
+package net.crazyinvestor.ticker_producer_engine.dto.bithumb.response
 
 class BithumbWSOrderbookDepthResponseContent (
     val symbol: String?,

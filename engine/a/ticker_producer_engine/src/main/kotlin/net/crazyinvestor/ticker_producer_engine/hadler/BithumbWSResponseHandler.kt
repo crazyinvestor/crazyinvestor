@@ -4,46 +4,65 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import net.crazyinvestor.ticker_producer_engine.dto.response.BithumbWSOrderbookDepthResponse
-import net.crazyinvestor.ticker_producer_engine.dto.response.BithumbWSTickerResponse
-import net.crazyinvestor.ticker_producer_engine.dto.response.BithumbWSTransactionResponse
+import net.crazyinvestor.ticker_producer_engine.dto.bithumb.response.BithumbWSOrderbookDepthResponse
+import net.crazyinvestor.ticker_producer_engine.dto.bithumb.response.BithumbWSTickerResponse
+import net.crazyinvestor.ticker_producer_engine.dto.bithumb.response.BithumbWSTransactionResponse
+import net.crazyinvestor.ticker_producer_engine.dto.bithumb.response.BithumbWSTransactionResponseContent
 import net.crazyinvestor.ticker_producer_engine.enums.BithumbOpType
-import net.crazyinvestor.ticker_producer_engine.event.BithumbOrderbookDepthEvent
-import net.crazyinvestor.ticker_producer_engine.event.BithumbTickerEvent
-import net.crazyinvestor.ticker_producer_engine.event.BithumbTransactionEvent
-import net.crazyinvestor.ticker_producer_engine.service.TickerService
+import net.crazyinvestor.ticker_producer_engine.service.TickerOpService
+import net.crazyinvestor.ticker_producer_engine.service.TickerTxOpService
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toMono
 import java.util.*
 
 @Component
 class BithumbWSResponseHandler(
-    private val tickerService: TickerService,
+    private val tickerService: TickerOpService,
+    private val tickerTxOpService: TickerTxOpService,
     private val eventPublisher: ApplicationEventPublisher
 ) {
     private val objectMapper: ObjectMapper = ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
+    private fun readTreeMono(data: String?): Mono<JsonNode> {
+        return data.toMono()
+            .map { objectMapper.readTree(it) }
+            .doOnError { it.printStackTrace(); System.exit(1) }
+    }
+
     fun handle(data: String?) {
-        try {
-            val response = objectMapper.readTree(data)
-            if (Objects.nonNull(response["status"])) {
-                handleStatusMessage(response)
-            } else {
-                val type = response["type"].asText()
-                if (BithumbOpType.TICKER.opType == type) {
-                    handleTickerData(response)
-                } else if (BithumbOpType.TRANSACTION.opType == type) {
-                    handleTransactionData(response)
-                } else if (BithumbOpType.ORDERBOOK_DEPTH.opType == type) {
-                    handleOrderbookDepthData(response)
+        readTreeMono(data)
+            .doOnNext { response ->
+                when {
+                    Objects.nonNull(response["status"]) -> handleStatusMessage(response)
+                    else -> when(response["type"].asText()) {
+                        BithumbOpType.TICKER.opType -> handleTickerData(response)
+                        BithumbOpType.TRANSACTION.opType -> handleTransactionData(response)
+                        BithumbOpType.ORDERBOOK_DEPTH.opType -> handleOrderbookDepthData(response)
+                        else -> { println("NOT EXISTS TYPE"); }
+                    }
                 }
             }
-        } catch (e: JsonProcessingException) {
-            e.printStackTrace()
-            System.exit(1)
-        }
+            .subscribe()
     }
+//        try {
+//            val response = objectMapper.readTree(data)
+//            when {
+//                Objects.nonNull(response["status"]) -> handleStatusMessage(response)
+//                else -> when(response["type"].asText()) {
+//                    BithumbOpType.TICKER.opType -> handleTickerData(response)
+//                    BithumbOpType.TRANSACTION.opType -> handleTransactionData(response)
+//                    BithumbOpType.ORDERBOOK_DEPTH.opType -> handleOrderbookDepthData(response)
+//                    else -> { println("NOT EXISTS TYPE"); }
+//                }
+//            }
+//        } catch (e: JsonProcessingException) {
+//            e.printStackTrace()
+//            System.exit(1)
+//        }
 
     @Throws(JsonProcessingException::class)
     private fun handleOrderbookDepthData(response: JsonNode) {
@@ -55,7 +74,7 @@ class BithumbWSResponseHandler(
             BithumbWSOrderbookDepthResponse::class.java
         )
         responseObj.datetime = datetime
-        eventPublisher.publishEvent(BithumbOrderbookDepthEvent(responseObj))
+        // eventPublisher.publishEvent(BithumbOrderbookDepthEvent(responseObj))
 
         // TODO: OrderbookDepth 저장 로직
     }
@@ -68,20 +87,22 @@ class BithumbWSResponseHandler(
             content,
             BithumbWSTransactionResponse::class.java
         )
-        eventPublisher.publishEvent(BithumbTransactionEvent(responseObj))
-
-        // TODO: Transaction 저장 로직
+        responseObj.list!!
+            .toFlux()
+            .flatMap { Mono.just(it) }
+            .doOnNext {
+                tickerTxOpService.produce(it)
+            }
+            .subscribe()
     }
 
-    @Throws(JsonProcessingException::class)
     private fun handleTickerData(response: JsonNode) {
-        val type = response["type"].asText()
+        // val type = response["type"].asText()
         val content = response["content"]
         val responseObj: BithumbWSTickerResponse = objectMapper.treeToValue<BithumbWSTickerResponse>(
             content,
             BithumbWSTickerResponse::class.java
         )
-        eventPublisher.publishEvent(BithumbTickerEvent(responseObj))
         tickerService.saveBithumbTicker(responseObj)
     }
 

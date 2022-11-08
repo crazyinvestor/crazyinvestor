@@ -1,6 +1,7 @@
 package net.crazyinvestor.ticker_producer_engine.config
 
-import net.crazyinvestor.engine_aaa.dto.RecentCurrencyInfoDto
+import net.crazyinvestor.dto.TickTxDto
+import net.crazyinvestor.engine_aaa.dto.TickInfoDto
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.context.annotation.Bean
@@ -14,12 +15,17 @@ import reactor.kafka.sender.SenderOptions
 @EnableKafka
 class KafkaConfiguration {
     @Bean
-    fun reactiveKafkaProducerTemplate(): ReactiveKafkaProducerTemplate<String, RecentCurrencyInfoDto> {
-        return ReactiveKafkaProducerTemplate<String, RecentCurrencyInfoDto>(senderOptions<String, RecentCurrencyInfoDto>())
+    fun reactiveKafkaProducerTemplateForTickerOp(): ReactiveKafkaProducerTemplate<String, TickInfoDto> {
+        return ReactiveKafkaProducerTemplate<String, TickInfoDto>(senderOptions<String, TickInfoDto>())
     }
 
     @Bean
-    fun jsonSerializer(): JsonSerializer<RecentCurrencyInfoDto> {
+    fun reactiveKafkaProducerTemplateForTickerTxOp(): ReactiveKafkaProducerTemplate<String, TickTxDto> {
+        return ReactiveKafkaProducerTemplate<String, TickTxDto>(senderOptions<String, TickTxDto>())
+    }
+
+    @Bean
+    fun jsonSerializer(): JsonSerializer<TickInfoDto> {
         return JsonSerializer()
     }
 
