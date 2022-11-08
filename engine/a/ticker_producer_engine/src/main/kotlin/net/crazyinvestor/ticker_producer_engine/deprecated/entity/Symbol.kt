@@ -1,4 +1,4 @@
-package net.crazyinvestor.ticker_producer_engine.entity
+package net.crazyinvestor.ticker_producer_engine.deprecated.entity
 
 data class Symbol (
     val id: Long?,

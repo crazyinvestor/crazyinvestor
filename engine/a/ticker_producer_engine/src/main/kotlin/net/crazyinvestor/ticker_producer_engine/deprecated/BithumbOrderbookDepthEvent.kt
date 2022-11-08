@@ -1,0 +1,6 @@
+package net.crazyinvestor.ticker_producer_engine.deprecated
+
+import net.crazyinvestor.ticker_producer_engine.dto.bithumb.response.BithumbWSOrderbookDepthResponse
+import org.springframework.context.ApplicationEvent
+
+class BithumbOrderbookDepthEvent(response: BithumbWSOrderbookDepthResponse) : ApplicationEvent(response)
