@@ -1,18 +1,34 @@
-version: '2'
+version: '3.6'
+
+volumes:
+  zookeeper-data:
+    driver: local
+  zookeeper-log:
+    driver: local
+  kafka-data:
+    driver: local
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data:Z
+      - zookeeper-log:/var/lib/zookeeper/log:Z
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_CLIENT_PORT: '2181'
+      ZOOKEEPER_TICK_TIME: '2000'
+      ZOOKEEPER_ADMIN_ENABLE_SERVER: 'false'
     ports:
       - 22181:2181
+
   kafka:
     build: .
-    depends_on:
-      - zookeeper
+    volumes: 
+      - kafka-data:/var/lib/kafka/data:Z
     ports:
       - 29092:29092
+    links:
+      - zookeeper
 
   cass_cluster:
     image: cassandra:3.11.14
@@ -20,6 +36,19 @@ services:
       - 9042:9042
     expose: # FOR DEBUG ENVIRONMENT ONLY
       - "9042"
+  akhq:
+    image: tchiotludo/akhq
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "kafka:9092"
+    ports:
+      - 8080:8080
+    links:
+      - kafka
 
 # TODO engine, kafka, cassandra 네트워크 구성 for PRODUCTION
 
