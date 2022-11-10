@@ -12,6 +12,7 @@ import org.springframework.kafka.support.Acknowledgment
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.Payload
+import reactor.core.publisher.Mono
 import reactor.util.Loggers
 import java.time.Duration
 
@@ -44,7 +45,7 @@ class TickTxListener (
 //            ClassCastException::class
 //        ]
 //    )
-    @RetryableTopic
+    // @RetryableTopic
     @KafkaHandler
     fun listen(
         @Payload dto: TickTxDto,
@@ -52,17 +53,27 @@ class TickTxListener (
         acknowledgment: Acknowledgment
     ) {
         logger.debug("CONSUME TX offset=${offset}, tickerId=${dto.tickerId}, tickerName=${dto.tickerName}, contPrice=${dto.contPrice}")
-        
+
+        val doAck = {
+            logger.debug("SUCCESS doAck()")
+            acknowledgment.acknowledge()
+        }
+        val doNack = { t: Throwable ->
+            logger.debug("ERROR doNack()")
+            acknowledgment.nack(Duration.ofMillis(1000L))
+            Mono.empty<TickerTransaction>()
+        }
+
         reactiveCassandraTemplate
             .insert(TickerTransaction.fromDto(dto))
             .doOnError {
                 logger.debug("ERROR CASSANDRA, offset=${offset}")
-                // acknowledgment.nack(Duration.ofMillis(1))
             }
             .doOnSuccess {
                 logger.debug("SUCCESS CASSANDRA, offset=${offset}")
-                acknowledgment.acknowledge()
             }
+            .onErrorResume(doNack)
+            .doAfterTerminate(doAck)
             .subscribe()
     }
 
@@ -71,10 +82,10 @@ class TickTxListener (
         logger.debug("[$TICK_TX_TOPIC] ERROR. UNKNOWN TYPE RECEIVED.")
     }
 
-    @DltHandler
-    fun handleDlt(tickTxDto: TickTxDto) {
-        logger.debug("[DLT] tickTxDto=$tickTxDto")
-    }
+    //@DltHandler
+   // fun handleDlt(tickTxDto: TickTxDto) {
+    //    logger.debug("[DLT] tickTxDto=$tickTxDto")
+   // }
 }
 
 // private val reactiveKafkaConsumerTemplate: ReactiveKafkaConsumerTemplate<String, TickerTransactionDto>,

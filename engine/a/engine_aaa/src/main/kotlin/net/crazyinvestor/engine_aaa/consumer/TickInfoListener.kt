@@ -13,6 +13,7 @@ import org.springframework.kafka.support.Acknowledgment
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.Payload
+import reactor.core.publisher.Mono
 import reactor.util.Loggers
 import java.time.Duration
 
@@ -38,16 +39,27 @@ class TickInfoListener(
         acknowledgment: Acknowledgment
     ) {
         logger.debug("CONSUME offset=${offset}, id=${dto.id}, tickerName=${dto.tickerName}, closePrice=${dto.closePrice}")
+
+        val doAck = {
+            logger.debug("SUCCESS doAck()")
+            acknowledgment.acknowledge()
+        }
+        val doNack = { t: Throwable ->
+            logger.debug("ERROR doNack()")
+            acknowledgment.nack(Duration.ofMillis(1000L))
+            Mono.empty<RecentCurrencyInfo>()
+        }
+
         reactiveCassandraTemplate
             .insert(RecentCurrencyInfo.fromRecentCurrenyInfoDto(dto))
             .doOnError {
                 logger.debug("ERROR CASSANDRA, offset=${offset}")
-                acknowledgment.nack(Duration.ofMillis(1000))
             }
             .doOnSuccess {
                 logger.debug("SUCCESS CASSANDRA, offset=${offset}")
-                acknowledgment.acknowledge()
             }
+            .onErrorResume(doNack)
+            .doAfterTerminate(doAck)
             .subscribe()
     }
 

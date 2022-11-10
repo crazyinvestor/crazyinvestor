@@ -79,7 +79,6 @@ class KafkaReceiverConfiguration(
         this.containerProperties.isAsyncAcks = false
         // asyncAck 모드가 true 이면 nack 을 못쓴다.
         this.consumerFactory = consumerFactory
-        this.setReplyTemplate(template)
     }
 
     /** Consumer Factories */

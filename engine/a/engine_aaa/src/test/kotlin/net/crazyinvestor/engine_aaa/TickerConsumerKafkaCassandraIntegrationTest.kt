@@ -2,7 +2,7 @@ package net.crazyinvestor.engine_aaa
 
 import com.datastax.oss.driver.api.core.CqlSessionBuilder
 import com.datastax.oss.driver.api.core.uuid.Uuids
-import net.crazyinvestor.engine_aaa.constants.NEW_TICKER_TOPIC
+// import net.crazyinvestor.engine_aaa.constants.NEW_TICKER_TOPIC
 import net.crazyinvestor.engine_aaa.persistence.Ticker
 import org.apache.kafka.clients.producer.Callback
 import org.apache.kafka.clients.producer.Producer
@@ -53,7 +53,7 @@ class TickerConsumerKafkaCassandraIntegrationTest {
             Callback { metadata, exception -> println(metadata to exception) }
 
         repeat(expected.toInt()){
-            producer.send(ProducerRecord(NEW_TICKER_TOPIC, getRandomTicker()), callback).get()
+            producer.send(ProducerRecord("new-ticker", getRandomTicker()), callback).get()
         }
 
         println("sleep 7s")
