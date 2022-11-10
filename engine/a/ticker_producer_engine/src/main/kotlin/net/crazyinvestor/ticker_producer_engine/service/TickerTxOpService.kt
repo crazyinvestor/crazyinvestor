@@ -38,7 +38,9 @@ class TickerTxOpService(
                 contQty = contQty!!,
                 contAmt = contAmt!!,
                 contDtm = timestamp,
-                updn = updn!!
+                updn = updn!!,
+                date = "${timestamp.getYear()}${String.format("%02d", timestamp.getMonthValue())}${String.format("%02d",timestamp.getDayOfMonth())}".toInt(),
+                hour = timestamp.getHour()
             )
         }
         logger.debug("PRODUCE TX $dto")

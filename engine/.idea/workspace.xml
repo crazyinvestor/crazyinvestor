@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b41629db-e7de-4fc7-a7cb-95d9358abb26" name="변경" comment="fixup! Feature: bithumbWebSocket producer 와 cassandra consumer 연결 및 통합, 1차 Denormalization #58">
+      <change beforePath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/EngineAaaApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/EngineAaaApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/config/AppConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/config/AppConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/consumer/RecentCurrencyInfoConsumer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/consumer/RecentCurrencyInfoConsumer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/persistence/RecentCurrencyInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/engine_aaa/src/main/kotlin/net/crazyinvestor/engine_aaa/persistence/RecentCurrencyInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/TickerProducerEngineApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/TickerProducerEngineApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/connector/BithumbWSConnector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/connector/BithumbWSConnector.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/dto/request/BithumbWSSubscribeRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/dto/request/BithumbWSSubscribeRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/enums/BithumbSymbol.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/enums/BithumbSymbol.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/event/BithumbOrderbookDepthEvent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/deprecated/BithumbOrderbookDepthEvent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/event/BithumbTickerEvent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/deprecated/BithumbTickerEvent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/event/BithumbTransactionEvent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/deprecated/BithumbTransactionEvent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/hadler/BithumbWSResponseHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/hadler/BithumbWSResponseHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/service/TickerService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/service/TickerService.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/a/dtos">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/a/engine_aaa">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/a/ticker_producer_engine">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/b">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/ticker_producer_engine">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/a/ticker_producer_engine">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/a/dtos">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ticker_producer_engine" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ticker_producer_engine" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ticker_producer_engine" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="feature-58" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="recentNewPullRequestHead">
+      <RepoCoordinatesHolder>
+        <option name="owner" value="crazyinvestor" />
+        <option name="repository" value="crazyinvestor" />
+      </RepoCoordinatesHolder>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2GzBr06jp0RCbTUKwXDIoRTe36j" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelOrder2": "2",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RequestMappingsPanelWidth2": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ToolWindow서비스.ShowToolbar": "false",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "19",
+    "last_opened_file_path": "/Users/imdongjin/workspace/crazyinvestor/engine/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "문제",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.34031415",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "bigdataide_conn_settings",
+    "spring.configuration.checksum": "acbaddf33a4555884e83133c05efb110"
+  },
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory"
+    ],
+    "DatabaseDriversLRU": [
+      "mysql",
+      "cassandra"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor" />
+      <recent name="$PROJECT_DIR$/a/ticker_producer_engine/src/test/resources" />
+      <recent name="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/event" />
+      <recent name="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/dto" />
+      <recent name="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/entity" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/a/dtos/src/main/kotlin/net/crazyinvestor" />
+      <recent name="$PROJECT_DIR$/a/ticker_producer_engine/src/main/kotlin/net/crazyinvestor/ticker_producer_engine/tmp" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="net.crazyinvestor.ticker_producer_engine.deprecated" />
+      <recent name="net.crazyinvestor.engine_aaa.consumer" />
+      <recent name="net.crazyinvestor.ticker_producer_engine.enums" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="net.crazyinvestor.dto" />
+      <recent name="net.crazyinvestor.engine_aaa.config" />
+      <recent name="net.crazyinvestor.engine_aaa.persistence" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EngineAaaApplication">
+    <configuration name="TickerConsumerTest.can send valid input" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;net.crazyinvestor.engine_aaa.consumer.TickerConsumerTest.can send valid input&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="dtos [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/a/dtos" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="EngineAaaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <option name="ACTIVE_PROFILES" value="dev" />
+      <module name="engine_aaa.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.crazyinvestor.engine_aaa.EngineAaaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EngineBApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="dev" />
+      <module name="engine_b.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.crazyinvestor.engine_b.EngineBApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.crazyinvestor.engine_b.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TickerProducerEngineApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="ticker_producer_engine.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.crazyinvestor.ticker_producer_engine.TickerProducerEngineApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.dtos [jar]" />
+      <item itemvalue="Gradle.TickerConsumerTest.can send valid input" />
+      <item itemvalue="Spring Boot.TickerProducerEngineApplication" />
+      <item itemvalue="Spring Boot.EngineBApplication" />
+      <item itemvalue="Spring Boot.EngineAaaApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.EngineAaaApplication" />
+        <item itemvalue="Spring Boot.TickerProducerEngineApplication" />
+        <item itemvalue="Spring Boot.EngineBApplication" />
+        <item itemvalue="Gradle.TickerConsumerTest.can send valid input" />
+        <item itemvalue="Gradle.dtos [jar]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="SpringBeansView">
+    <option name="beanDetailsProportion" value="0.3616505" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="b41629db-e7de-4fc7-a7cb-95d9358abb26" name="변경" comment="" />
+      <created>1667381726590</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667381726590</updated>
+      <workItem from="1667381727892" duration="1093000" />
+      <workItem from="1667383432038" duration="1660000" />
+      <workItem from="1667385125470" duration="24000" />
+      <workItem from="1667385462489" duration="495000" />
+      <workItem from="1667385979061" duration="306000" />
+      <workItem from="1667386292481" duration="141000" />
+      <workItem from="1667386438830" duration="24252000" />
+      <workItem from="1667446869000" duration="8654000" />
+      <workItem from="1667457711097" duration="557000" />
+      <workItem from="1667458336937" duration="2835000" />
+      <workItem from="1667461224385" duration="6424000" />
+      <workItem from="1667469029429" duration="33834000" />
+      <workItem from="1667542930522" duration="4160000" />
+      <workItem from="1667553712577" duration="596000" />
+      <workItem from="1667555255660" duration="2027000" />
+      <workItem from="1667557345755" duration="2799000" />
+      <workItem from="1667580277895" duration="11000" />
+      <workItem from="1667580946036" duration="6968000" />
+      <workItem from="1667615035203" duration="10784000" />
+      <workItem from="1667627161792" duration="455000" />
+      <workItem from="1667628801216" duration="106000" />
+    </task>
+    <task id="LOCAL-00001" summary="Feature: B-engine 프로젝트 환경 설정 / B-engine code 를 kotlin project 로 변환하여 재구현 #56">
+      <created>1667463954356</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667463954356</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Feature: bithumbWebSocket producer 와 cassandra consumer 연결 및 통합, 1차 Denormalization #58">
+      <created>1667546499604</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1667546499604</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
+    <option featureType="dependencySupport" implementationName="java:org.apache.kafka:kafka_2.13" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.integration:spring-integration-core" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.apache.kafka:kafka-clients" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate:hibernate-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Feature: B-engine 프로젝트 환경 설정 / B-engine code 를 kotlin project 로 변환하여 재구현 #56" />
+    <MESSAGE value="Feature: bithumbWebSocket producer 와 cassandra consumer 연결 및 통합, 1차 Denormalization #58" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feature: bithumbWebSocket producer 와 cassandra consumer 연결 및 통합, 1차 Denormalization #58" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
