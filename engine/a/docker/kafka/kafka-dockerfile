@@ -13,5 +13,5 @@ ENV NUM_PARTITIONS=12
 ENV KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE=false
 ENV KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
 
-# RUN kafka/bin/kafka-topics.sh --create --topic new-ticker --bootstrap-server localhost:9092
+# RUN kafka-mirror/bin/kafka-topics.sh --create --topic new-ticker --bootstrap-server localhost:9092
  

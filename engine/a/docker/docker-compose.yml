@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3'
 
 volumes:
   zookeeper-data:
@@ -20,22 +20,47 @@ services:
       ZOOKEEPER_ADMIN_ENABLE_SERVER: 'false'
     ports:
       - 22181:2181
-
+    networks:
+      - mybridge-network
   kafka:
-    build: .
+    build: 
+      context: ./kafka
+      dockerfile: kafka-dockerfile
     volumes: 
       - kafka-data:/var/lib/kafka/data:Z
     ports:
       - 29092:29092
     links:
       - zookeeper
-
-  cass_cluster:
+    networks:
+      - mybridge-network
+  cassandra:
     image: cassandra:3.11.14
+    restart: "always"
     ports:
       - 9042:9042
-    expose: # FOR DEBUG ENVIRONMENT ONLY
-      - "9042"
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - mybridge-network
+    #expose: # FOR DEBUG ENVIRONMENT ONLY
+    #  - "9042"
+  cass_init:
+    image: cassandra:3.11.14
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    links:
+      - cassandra
+    restart: "no"
+    entrypoint: ["/cassandra_init00.sh"]
+    volumes:
+      - ./cassandra_init00.sh:/cassandra_init00.sh
+    networks:
+      - mybridge-network
   akhq:
     image: tchiotludo/akhq
     environment:
@@ -49,20 +74,10 @@ services:
       - 8080:8080
     links:
       - kafka
+    networks:
+      - mybridge-network
 
-# TODO engine, kafka, cassandra 네트워크 구성 for PRODUCTION
+networks:
+  mybridge-network:
+    driver: bridge
 
-###################
-#  kafka:
-#    image: confluentinc/cp-kafka:latest
-#    depends_on:
-#      - zookeeper
-#    ports:
-#      - 29092:29092
-#    environment:
-#      KAFKA_BROKER_ID: 1
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-#      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
