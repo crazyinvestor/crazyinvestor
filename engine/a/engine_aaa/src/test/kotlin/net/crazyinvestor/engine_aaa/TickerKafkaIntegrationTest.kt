@@ -1,7 +1,7 @@
 package net.crazyinvestor.engine_aaa
 
 import com.datastax.oss.driver.api.core.uuid.Uuids
-import net.crazyinvestor.engine_aaa.constants.NEW_TICKER_TOPIC
+// import net.crazyinvestor.engine_aaa.constants.NEW_TICKER_TOPIC
 import net.crazyinvestor.engine_aaa.persistence.Ticker
 import org.apache.kafka.clients.producer.*
 import org.apache.kafka.common.serialization.StringSerializer
@@ -41,7 +41,7 @@ class TickerKafkaIntegrationTest {
         val callback: Callback =
             Callback { metadata, exception -> println(metadata to exception) }
 
-        val metadata = producer.send(ProducerRecord(NEW_TICKER_TOPIC, VALID_TICKER), callback)
+        val metadata = producer.send(ProducerRecord("new-ticker", VALID_TICKER), callback)
             .get()
 
         println(metadata)
@@ -53,7 +53,7 @@ class TickerKafkaIntegrationTest {
             Callback { metadata, exception -> println(metadata to exception) }
 
         repeat(100){
-            producer.send(ProducerRecord(NEW_TICKER_TOPIC, getRandomTicker()), callback).get()
+            producer.send(ProducerRecord("new-ticker", getRandomTicker()), callback).get()
         }
     }
 

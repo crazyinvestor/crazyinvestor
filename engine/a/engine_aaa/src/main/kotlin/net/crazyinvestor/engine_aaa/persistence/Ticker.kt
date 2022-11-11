@@ -1,11 +1,10 @@
 package net.crazyinvestor.engine_aaa.persistence
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import net.crazyinvestor.dto.TickerDto
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.Table
-import java.util.UUID
+import java.util.*
 
 @Table
 public data class Ticker (
