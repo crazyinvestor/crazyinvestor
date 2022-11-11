@@ -23,7 +23,7 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.data:spring-data-bom:2021.2.5")
 
-    implementation("org.springframework.boot:spring-boot-starter-data-cassandra-reactive")
+    implementation("org.springframework.boot:spring-boot-starter-data-cassandra")
     implementation("org.springframework.boot:spring-boot-starter-integration")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-websocket")

@@ -2,8 +2,6 @@ package net.crazyinvestor.engine_aaa.consumer
 
 import net.crazyinvestor.dto.TickTxDto
 import net.crazyinvestor.engine_aaa.config.CONSUMER_GROUP_ONE
-import net.crazyinvestor.engine_aaa.config.TICK_INFO_TOPIC
-import net.crazyinvestor.engine_aaa.config.TICK_TX_TOPIC
 import net.crazyinvestor.engine_aaa.dto.TickInfoDto
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
@@ -11,19 +9,13 @@ import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.cassandra.CassandraConnectionFailureException
-import org.springframework.data.cassandra.core.ReactiveCassandraTemplate
+import org.springframework.data.cassandra.core.CassandraOperations
 import org.springframework.kafka.annotation.EnableKafka
-import org.springframework.kafka.annotation.EnableKafkaRetryTopic
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.listener.ContainerProperties
-import org.springframework.kafka.retrytopic.DltStrategy
-import org.springframework.kafka.retrytopic.RetryTopicConfiguration
-import org.springframework.kafka.retrytopic.RetryTopicConfigurationBuilder
-import org.springframework.kafka.support.EndpointHandlerMethod
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import java.util.*
@@ -33,16 +25,16 @@ import java.util.*
 @Configuration
 class KafkaReceiverConfiguration(
     private final val kafkaProperties: KafkaProperties,
-    val reactiveCassandraTemplate: ReactiveCassandraTemplate
+    private val cassandraTemplate: CassandraOperations
 ) {
 
     /** Listeners */
 
     @Bean
-    fun tickInfoListener() = TickInfoListener(reactiveCassandraTemplate)
+    fun tickInfoListener() = TickInfoListener(cassandraTemplate)
 
     @Bean
-    fun tickTxListener() = TickTxListener(reactiveCassandraTemplate)
+    fun tickTxListener() = TickTxListener(cassandraTemplate)
 
     /** Listener Container Factories */
 
@@ -79,7 +71,6 @@ class KafkaReceiverConfiguration(
         this.containerProperties.isAsyncAcks = false
         // asyncAck 모드가 true 이면 nack 을 못쓴다.
         this.consumerFactory = consumerFactory
-        this.setReplyTemplate(template)
     }
 
     /** Consumer Factories */
@@ -114,28 +105,3 @@ class KafkaReceiverConfiguration(
         this[ConsumerConfig.GROUP_ID_CONFIG] = CONSUMER_GROUP_ONE
     }
 }
-
-////////////////////////////////////////////////////////////////////////////
-//    @Bean
-//    fun reactiveKafkaConsumerTemplateForTickTxDto(): ReactiveKafkaConsumerTemplate<String, TickerTransactionDto> {
-//        val receiverOptions =
-//            receiverOptions<String, TickerTransactionDto>(groupId = "group-1", topicName = TICK_TX_TOPIC)
-//        return ReactiveKafkaConsumerTemplate(receiverOptions)
-//    }
-//
-//    @Bean
-//    fun reactiveKafkaConsumerTemplateForRecentCurrenyInfoDto(): ReactiveKafkaConsumerTemplate<String, RecentCurrencyInfoDto> {
-//        val receiverOptions =
-//            receiverOptions<String, RecentCurrencyInfoDto>(groupId = "group-2", topicName = TICK_INFO_TOPIC)
-//        return ReactiveKafkaConsumerTemplate(receiverOptions)
-//    }
-//    fun <K, V> receiverOptions(groupId: String, topicName: String): ReceiverOptions<K, V> {
-//        val props: MutableMap<String, Any> = kafkaProperties.buildConsumerProperties()
-//        props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-//        props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = JsonDeserializer::class.java
-//        props[ConsumerConfig.GROUP_ID_CONFIG] = groupId
-//        props[ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG] = true
-//
-//        return ReceiverOptions.create<K, V>(props)
-//            .subscription(Collections.singleton(topicName))
-//    }
