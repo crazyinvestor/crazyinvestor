@@ -27,11 +27,19 @@ data class TickTxDto (
 
    val contAmt: String,
 
-    // 체결시각
+    // 체결 timestamp
 
     val contDtm: LocalDateTime,
 
     // 직전 시세와 비교 (up: 상승, dn: 하락)
 
-    val updn: String
+    val updn: String,
+
+    // 체결 날짜
+
+    val date: Int,
+
+    // 체결 시각
+    
+    val hour: Int
 )

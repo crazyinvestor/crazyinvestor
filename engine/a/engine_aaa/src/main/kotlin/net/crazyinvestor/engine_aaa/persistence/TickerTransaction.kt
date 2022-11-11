@@ -6,12 +6,19 @@ import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
+import org.springframework.data.cassandra.core.cql.Ordering
 import java.time.LocalDateTime
 import java.util.*
 
 @Table("ticker_transaction")
 data class TickerTransaction (
-    @PrimaryKeyColumn(value = "ticker_id", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
+
+    // ticker_id
+    @PrimaryKeyColumn(
+        value = "ticker_id", 
+        type = PrimaryKeyType.PARTITIONED, 
+        ordinal = 0
+    )
     @CassandraType(type = CassandraType.Name.UUID)
     val tickerId: UUID,
 
@@ -21,7 +28,7 @@ data class TickerTransaction (
     val tickerName: String,
 
     // 체결 종류(1: 매도, 2: 매수)
-    @PrimaryKeyColumn(value = "buy_sell_gb", type = PrimaryKeyType.PARTITIONED, ordinal = 2)
+    @Column("buy_sell_gb")
     @CassandraType(type = CassandraType.Name.VARCHAR)
     val buySellGb: String,
 
@@ -39,16 +46,40 @@ data class TickerTransaction (
     @Column("cont_amt")
     @CassandraType(type = CassandraType.Name.VARCHAR)
     val contAmt: String,
-
-    // 체결시각
-    @PrimaryKeyColumn(value = "cont_dtm", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+    
+    // 체결 timestamp (unique)
+    @PrimaryKeyColumn(
+        value = "cont_dtm", 
+        type = PrimaryKeyType.CLUSTERED, 
+        ordinal = 3, 
+        ordering = Ordering.DESCENDING
+    )
     @CassandraType(type = CassandraType.Name.TIMESTAMP)
     val contDtm: LocalDateTime,
 
     // 직전 시세와 비교 (up: 상승, dn: 하락)
     @Column("updn")
     @CassandraType(type = CassandraType.Name.VARCHAR)
-    val updn: String
+    val updn: String,
+
+    ////
+    // 체결 날짜 (YYYY-MM-DD)
+    @PrimaryKeyColumn(
+        value = "date", 
+        type = PrimaryKeyType.PARTITIONED, 
+        ordinal = 1
+    )
+    @CassandraType(type = CassandraType.Name.INT)
+    val date: Int,
+
+    // 체결 시각 (1~24)
+    @PrimaryKeyColumn(
+        value = "hour", 
+        type = PrimaryKeyType.PARTITIONED, 
+        ordinal = 2
+    )
+    @CassandraType(type = CassandraType.Name.TINYINT)
+    val hour: Int
 ) {
     companion object {
         fun fromDto(dto: TickTxDto): TickerTransaction = with(dto) {
@@ -60,7 +91,9 @@ data class TickerTransaction (
                 contAmt = contAmt,
                 contQty = contQty,
                 contDtm = contDtm,
-                updn = updn
+                updn = updn,
+                date = date,
+                hour = hour
             )
         }
     }
